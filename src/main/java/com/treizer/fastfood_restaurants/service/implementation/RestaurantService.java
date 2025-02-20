@@ -76,7 +76,7 @@ public class RestaurantService implements ICommonService<RestaurantDto, Restaura
         Optional.ofNullable(updateDto.getAddress()).ifPresent(restaurantEntity::setAddress);
         Optional.ofNullable(updateDto.getCity()).ifPresent(restaurantEntity::setCity);
         Optional.ofNullable(updateDto.getCountry()).ifPresent(restaurantEntity::setCountry);
-        // Optional.ofNullable(updateDto.getKeys()).ifPresent(restaurantEntity::setKeys);
+        Optional.ofNullable(updateDto.getKeys()).ifPresent(restaurantEntity::setKeys);
         Optional.ofNullable(updateDto.getLatitude()).ifPresent(restaurantEntity::setLatitude);
         Optional.ofNullable(updateDto.getLongitude()).ifPresent(restaurantEntity::setLongitude);
         Optional.ofNullable(updateDto.getPostalCode()).ifPresent(restaurantEntity::setPostalCode);
@@ -91,11 +91,15 @@ public class RestaurantService implements ICommonService<RestaurantDto, Restaura
     @Override
     @Transactional
     public RestaurantDto deleteById(Long id) {
-        var restaurantEntity = this.restaurantRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró el restaurante con ID: " + id));
+        // var restaurantEntity = this.restaurantRepository.findById(id)
+        // .orElseThrow(() -> new EntityNotFoundException("No se encontró el restaurante
+        // con ID: " + id));
+
+        var restaurantDto = this.findById(id);
 
         this.restaurantRepository.deleteById(id);
 
-        return MAPPER.map(restaurantEntity, RestaurantDto.class);
+        // return MAPPER.map(restaurantEntity, RestaurantDto.class);
+        return restaurantDto;
     }
 }
