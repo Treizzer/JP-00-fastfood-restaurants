@@ -19,6 +19,7 @@ import com.treizer.fastfood_restaurants.presentation.dto.restaurant.RestaurantIn
 import com.treizer.fastfood_restaurants.presentation.dto.restaurant.RestaurantUpdateDto;
 import com.treizer.fastfood_restaurants.service.interfaces.ICommonService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,21 +31,26 @@ public class RestaurantController {
 
     @GetMapping
     public ResponseEntity<List<RestaurantDto>> findAll() {
-        System.out.println("Controller");
         return ResponseEntity.ok(this.restaurantService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDto> findById(@PathVariable Long id) {
-        if (id == null || id <= 0) {
+        // if (id == null || id <= 0) {
+        if (id <= 0) {
             return ResponseEntity.badRequest().build();
         }
 
-        RestaurantDto restaurantDto = this.restaurantService.findById(id);
+        try {
+            RestaurantDto restaurantDto = this.restaurantService.findById(id);
+            return ResponseEntity.ok(restaurantDto);
 
-        return restaurantDto == null
-                ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(restaurantDto);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        // return restaurantDto == null
+        // ? ResponseEntity.notFound().build()
+        // : ResponseEntity.ok(restaurantDto);
     }
 
     @PostMapping
@@ -62,31 +68,40 @@ public class RestaurantController {
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantDto> update(@Valid @RequestBody RestaurantUpdateDto restaurantUpdateDto,
             @PathVariable Long id) {
-        if (id <= 0) {
-            return ResponseEntity.badRequest().build();
+        // if (id <= 0 && restaurantUpdateDto.getId() <= 0) {
+        // return ResponseEntity.badRequest().build();
+        // }
+
+        try {
+            RestaurantDto restaurantDto = this.restaurantService.update(restaurantUpdateDto, id);
+            return ResponseEntity.ok(restaurantDto);
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
-
-        var restaurantDto = this.restaurantService.update(restaurantUpdateDto, id);
-
-        return restaurantDto == null
-                ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(restaurantDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RestaurantDto> deleteById(@PathVariable Long id) {
-        if (id == null || id <= 0) {
+        // if (id == null || id <= 0) {
+        if (id <= 0) {
             // Testing my exception for first time in method controller
             // throw new BadRequestException("No puede ser nulo y no puede ser meor igual a
             // cero un ID:" + id);
             return ResponseEntity.badRequest().build();
         }
 
-        var restaurantDto = this.restaurantService.deleteById(id);
+        try {
+            var restaurantDto = this.restaurantService.deleteById(id);
+            return ResponseEntity.ok(restaurantDto);
 
-        return restaurantDto == null
-                ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(restaurantDto);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // return restaurantDto == null
+        // ? ResponseEntity.notFound().build()
+        // : ResponseEntity.ok(restaurantDto);
     }
 
 }

@@ -40,9 +40,12 @@ public class RestaurantInsertDto {
     @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos números enteros y no más de ocho decimales")
     Double longitude;
 
-    @NotNull
-    @Min(value = 3, message = "No puede tener menos de tres digitos el código postal")
-    @Max(value = 6, message = "No puede tener más de seis digitos el código postal")
+    @NotNull(message = "No debe ser nulo")
+    // If you want using @Pattern you need a String
+    // @Pattern(regexp = "^\\d{3,6}$", message = "No debe ser menos de 3 ni más de 6
+    // digitos")
+    @Min(value = 100, message = "No puede tener menos de tres digitos el código postal")
+    @Max(value = 999999, message = "No puede tener más de seis digitos el código postal")
     Integer postalCode;
 
     @NotBlank(message = "No debe ser nulo o vacío")

@@ -37,8 +37,8 @@ public class RestaurantUpdateDto {
     @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos números enteros y no más de ocho decimales")
     Double longitude;
 
-    @Min(value = 3, message = "No puede tener menos de tres digitos el código postal")
-    @Max(value = 6, message = "No puede tener más de seis digitos el código postal")
+    @Min(value = 100, message = "No puede tener menos de tres digitos el código postal")
+    @Max(value = 999999, message = "No puede tener más de seis digitos el código postal")
     Integer postalCode;
 
     @Size(min = 3, max = 20, message = "No debe tener menos de tres caracteres ni más de veinte")

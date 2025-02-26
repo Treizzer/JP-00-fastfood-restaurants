@@ -41,19 +41,21 @@ public class RestaurantServiceTest {
         // Given
 
         // When
-        when(this.repository.findAll()).thenReturn(DataProvider.restaurantEntityIterableMock());
+        when(this.repository.findAll()).thenReturn(DataProvider.createRestaurantEntityIterableMock());
         List<RestaurantDto> result = this.service.findAll();
 
         // Then
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals("McDonald's", result.get(0).getName());
-        Assertions.assertEquals("324 Main St", result.get(0).getAddress());
-        Assertions.assertEquals(44.9213, result.get(0).getLatitude());
-        Assertions.assertEquals(-74.89021, result.get(0).getLongitude());
-        Assertions.assertEquals(13662, result.get(0).getPostalCode());
+        Assertions.assertAll("Restaurant fields verification for first element",
+                () -> Assertions.assertEquals("McDonald's", result.get(0).getName()),
+                () -> Assertions.assertEquals("324 Main St", result.get(0).getAddress()),
+                () -> Assertions.assertEquals(44.9213, result.get(0).getLatitude()),
+                () -> Assertions.assertEquals(-74.89021, result.get(0).getLongitude()),
+                () -> Assertions.assertEquals(13662, result.get(0).getPostalCode()));
 
         verify(this.repository).findAll();
+        verifyNoMoreInteractions(this.repository);
     }
 
     @Test
@@ -62,18 +64,20 @@ public class RestaurantServiceTest {
         Long id = 1L;
 
         // When
-        when(this.repository.findById(anyLong())).thenReturn(DataProvider.optionalRestaurantEntityMock());
+        when(this.repository.findById(anyLong())).thenReturn(DataProvider.createOptionalRestaurantEntityMock());
         RestaurantDto result = this.service.findById(id);
 
         // Then
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("McDonald's", result.getName());
-        Assertions.assertEquals("324 Main St", result.getAddress());
-        Assertions.assertEquals(44.9213, result.getLatitude());
-        Assertions.assertEquals(-74.89021, result.getLongitude());
-        Assertions.assertEquals(13662, result.getPostalCode());
+        Assertions.assertAll("Restaurant fields verification",
+                () -> Assertions.assertEquals("McDonald's", result.getName()),
+                () -> Assertions.assertEquals("324 Main St", result.getAddress()),
+                () -> Assertions.assertEquals(44.9213, result.getLatitude()),
+                () -> Assertions.assertEquals(-74.89021, result.getLongitude()),
+                () -> Assertions.assertEquals(13662, result.getPostalCode()));
 
         verify(this.repository).findById(anyLong());
+        verifyNoMoreInteractions(this.repository);
     }
 
     @Test
@@ -90,32 +94,35 @@ public class RestaurantServiceTest {
         });
 
         verify(this.repository).findById(anyLong());
+        verifyNoMoreInteractions(this.repository);
     }
 
     @Test
     public void testSave() {
         // Given
-        RestaurantInsertDto insertDto = DataProvider.restaurantInsertDtoMock();
+        RestaurantInsertDto insertDto = DataProvider.createRestaurantInsertDtoMock();
 
         // When
-        when(this.repository.save(any(RestaurantEntity.class))).thenReturn(DataProvider.restaurantEntityMock());
+        when(this.repository.save(any(RestaurantEntity.class))).thenReturn(DataProvider.createRestaurantEntityMock());
         RestaurantDto result = this.service.save(insertDto);
 
         // Then
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Tacos' Pepe", result.getName());
-        Assertions.assertEquals("234 Loro", result.getAddress());
-        Assertions.assertEquals(234.31223, result.getLatitude());
-        Assertions.assertEquals(-30.34153, result.getLongitude());
-        Assertions.assertEquals(89253, result.getPostalCode());
+        Assertions.assertAll("Restaurant fields saved verification",
+                () -> Assertions.assertEquals("Tacos' Pepe", result.getName()),
+                () -> Assertions.assertEquals("234 Loro", result.getAddress()),
+                () -> Assertions.assertEquals(23.31223, result.getLatitude()),
+                () -> Assertions.assertEquals(-30.34153, result.getLongitude()),
+                () -> Assertions.assertEquals(89253, result.getPostalCode()));
 
         verify(this.repository).save(any(RestaurantEntity.class));
+        verifyNoMoreInteractions(this.repository);
     }
 
     @Test
     public void testSaveError() {
         // Given
-        RestaurantInsertDto insertDto = DataProvider.restaurantInsertDtoMock();
+        RestaurantInsertDto insertDto = DataProvider.createRestaurantInsertDtoMock();
 
         // When
         when(this.repository.save(any(RestaurantEntity.class))).thenThrow(UnsupportedOperationException.class);
@@ -132,21 +139,23 @@ public class RestaurantServiceTest {
     @Test
     public void testUpdateWithId() {
         // Given
-        RestaurantUpdateDto updateDto = DataProvider.restaurantUpdateDtoMock();
+        RestaurantUpdateDto updateDto = DataProvider.createRestaurantUpdateDtoMock();
         Long id = 1L;
 
         // When
-        when(this.repository.findById(anyLong())).thenReturn(DataProvider.optionalRestaurantEntityMock());
-        when(this.repository.save(any(RestaurantEntity.class))).thenReturn(DataProvider.restaurantEntityUpdatedMock());
+        when(this.repository.findById(anyLong())).thenReturn(DataProvider.createOptionalRestaurantEntityMock());
+        when(this.repository.save(any(RestaurantEntity.class)))
+                .thenReturn(DataProvider.createRestaurantEntityUpdatedMock());
         RestaurantDto result = this.service.update(updateDto, id);
 
         // Then
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Name 1", result.getName());
-        Assertions.assertEquals("1 Pine St.", result.getAddress());
-        Assertions.assertEquals(111.111, result.getLatitude());
-        Assertions.assertEquals(-22.222, result.getLongitude());
-        Assertions.assertEquals(11, result.getPostalCode());
+        Assertions.assertAll("Restaurant fields updated verification",
+                () -> Assertions.assertEquals("Name 1", result.getName()),
+                () -> Assertions.assertEquals("1 Pine St.", result.getAddress()),
+                () -> Assertions.assertEquals(11.111, result.getLatitude()),
+                () -> Assertions.assertEquals(-22.222, result.getLongitude()),
+                () -> Assertions.assertEquals(111, result.getPostalCode()));
 
         verify(this.repository).findById(anyLong());
         verify(this.repository).save(any(RestaurantEntity.class));
@@ -173,20 +182,22 @@ public class RestaurantServiceTest {
     @Test
     public void testUpdateWithoutId() {
         // Given
-        RestaurantUpdateDto updateDto = DataProvider.restaurantUpdateDtoMock();
+        RestaurantUpdateDto updateDto = DataProvider.createRestaurantUpdateDtoMock();
 
         // When
-        when(this.repository.findById(anyLong())).thenReturn(DataProvider.optionalRestaurantEntityMock());
-        when(this.repository.save(any(RestaurantEntity.class))).thenReturn(DataProvider.restaurantEntityUpdatedMock());
+        when(this.repository.findById(anyLong())).thenReturn(DataProvider.createOptionalRestaurantEntityMock());
+        when(this.repository.save(any(RestaurantEntity.class)))
+                .thenReturn(DataProvider.createRestaurantEntityUpdatedMock());
         RestaurantDto result = this.service.update(updateDto, null);
 
         // Then
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("Name 1", result.getName());
-        Assertions.assertEquals("1 Pine St.", result.getAddress());
-        Assertions.assertEquals(111.111, result.getLatitude());
-        Assertions.assertEquals(-22.222, result.getLongitude());
-        Assertions.assertEquals(11, result.getPostalCode());
+        Assertions.assertAll("Restaurant fields updated verification",
+                () -> Assertions.assertEquals("Name 1", result.getName()),
+                () -> Assertions.assertEquals("1 Pine St.", result.getAddress()),
+                () -> Assertions.assertEquals(11.111, result.getLatitude()),
+                () -> Assertions.assertEquals(-22.222, result.getLongitude()),
+                () -> Assertions.assertEquals(111, result.getPostalCode()));
 
         verify(this.repository).findById(anyLong());
         verify(this.repository).save(any(RestaurantEntity.class));
@@ -196,7 +207,7 @@ public class RestaurantServiceTest {
     @Test
     public void testUpdateErrorWithoutId() {
         // Given
-        RestaurantUpdateDto updateDto = DataProvider.restaurantUpdateDtoErrorMock();
+        RestaurantUpdateDto updateDto = DataProvider.createRestaurantUpdateDtoErrorMock();
 
         // When
         when(this.repository.findById(anyLong())).thenReturn(Optional.empty());
@@ -216,7 +227,7 @@ public class RestaurantServiceTest {
         Long id = 1L;
 
         // When
-        when(this.repository.findById(anyLong())).thenReturn(DataProvider.optionalRestaurantEntityMock());
+        when(this.repository.findById(anyLong())).thenReturn(DataProvider.createOptionalRestaurantEntityMock());
         RestaurantDto result = this.service.deleteById(id);
 
         // Then
@@ -225,11 +236,12 @@ public class RestaurantServiceTest {
 
         Assertions.assertEquals(1L, longCaptor.getValue());
         Assertions.assertNotNull(result);
-        Assertions.assertEquals("McDonald's", result.getName());
-        Assertions.assertEquals("324 Main St", result.getAddress());
-        Assertions.assertEquals(44.9213, result.getLatitude());
-        Assertions.assertEquals(-74.89021, result.getLongitude());
-        Assertions.assertEquals(13662, result.getPostalCode());
+        Assertions.assertAll("Restaurant fields deleted verification",
+                () -> Assertions.assertEquals("McDonald's", result.getName()),
+                () -> Assertions.assertEquals("324 Main St", result.getAddress()),
+                () -> Assertions.assertEquals(44.9213, result.getLatitude()),
+                () -> Assertions.assertEquals(-74.89021, result.getLongitude()),
+                () -> Assertions.assertEquals(13662, result.getPostalCode()));
 
         verify(this.repository).findById(anyLong());
         verify(this.repository).deleteById(anyLong());
