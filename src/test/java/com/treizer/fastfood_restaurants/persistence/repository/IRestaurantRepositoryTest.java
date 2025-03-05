@@ -34,7 +34,7 @@ public class IRestaurantRepositoryTest {
         // Given
 
         // When
-        when(this.repository.findAll()).thenReturn(DataProvider.restaurantEntityIterableMock());
+        when(this.repository.findAll()).thenReturn(DataProvider.createRestaurantEntityIterableMock());
         List<RestaurantEntity> results = StreamSupport
                 .stream(this.repository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
@@ -54,7 +54,7 @@ public class IRestaurantRepositoryTest {
         Long id = 1L;
 
         // When
-        when(this.repository.findById(anyLong())).thenReturn(DataProvider.optionalRestaurantEntityMock());
+        when(this.repository.findById(anyLong())).thenReturn(DataProvider.createOptionalRestaurantEntityMock());
         Optional<RestaurantEntity> result = this.repository.findById(id);
 
         // Then

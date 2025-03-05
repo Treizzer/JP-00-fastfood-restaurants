@@ -57,6 +57,22 @@ public class DataProvider {
                 .latitude(23.31223)
                 .longitude(-30.34153)
                 .postalCode(89253)
+                // .postalCode(892531111)
+                .province("Tonala")
+                .website("google.es")
+                .build();
+    }
+
+    public static RestaurantInsertDto createRestaurantInsertDtoBadMock() {
+        return RestaurantInsertDto.builder()
+                .name("Tacos' Pepe")
+                .address("234 Loro")
+                .city("Tonala")
+                .country("Mexico")
+                .keys("tacos/mx/tonala")
+                .latitude(1D)
+                .longitude(1D)
+                .postalCode(1)
                 .province("Tonala")
                 .website("google.es")
                 .build();
@@ -155,13 +171,17 @@ public class DataProvider {
     // return json;
     // }
 
-    public static String createJSONDto(final Object insert) {
+    public static String createJSONDto(final Object obj) {
         try {
-            return new ObjectMapper().writeValueAsString(insert);
+            return new ObjectMapper().writeValueAsString(obj);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String createMalFormedJson() {
+        return "{ \"name\": \"Test Restaurant\", \"address\": }";
     }
 
     // public static byte[] insertDtoBytes(final RestaurantInsertDto insert) {

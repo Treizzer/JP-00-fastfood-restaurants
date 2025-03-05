@@ -52,8 +52,9 @@ public class RestaurantInsertDto {
     @Size(min = 3, max = 20, message = "No debe tener menos de tres caracteres ni más de veinte")
     String province;
 
-    @NotBlank(message = "No debe ser nulo o vacío")
-    @Size(min = 5, max = 70, message = "No debe tener menos de cinco caracteres ni más de setenta")
+    // @NotBlank(message = "No debe ser nulo o vacío")
+    // @Size(min = 5, max = 70, message = "No debe tener menos de cinco caracteres
+    // ni más de setenta")
     String website;
 
 }

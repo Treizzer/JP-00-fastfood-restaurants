@@ -125,7 +125,8 @@ public class RestaurantControllerTest {
 
         // When
         // when(this.service.findById(anyLong())).thenReturn(null);
-        when(this.service.findById(anyLong())).thenThrow(EntityNotFoundException.class);
+        when(this.service.findById(anyLong()))
+                .thenThrow(new EntityNotFoundException("No se encontró el restaurante con ID: " + id));
 
         this.mockMvc.perform(get("/api/restaurant/{id}", id))
                 // Then()
@@ -205,7 +206,8 @@ public class RestaurantControllerTest {
         Long id = 0L;
 
         // When
-        when(this.service.update(any(RestaurantUpdateDto.class), anyLong())).thenThrow(EntityNotFoundException.class);
+        when(this.service.update(any(RestaurantUpdateDto.class), anyLong()))
+                .thenThrow(new EntityNotFoundException("No se encontró el restaurante con ID: " + id));
         // If you don't write "/" at the end; return in authomatic 405 error code
         // this.mockMvc.perform(put("/api/restaurant")
         this.mockMvc.perform(put("/api/restaurant/{id}", id)
@@ -258,7 +260,8 @@ public class RestaurantControllerTest {
         Long id = 10L;
 
         // When
-        when(this.service.deleteById(anyLong())).thenThrow(EntityNotFoundException.class);
+        when(this.service.deleteById(anyLong()))
+                .thenThrow(new EntityNotFoundException("No se encontró el restaurante con ID: " + id));
         this.mockMvc.perform(delete("/api/restaurant/{id}", id))
                 // Then
                 .andExpect(status().isNotFound());

@@ -41,13 +41,13 @@ public class RestaurantController {
             return ResponseEntity.badRequest().build();
         }
 
-        try {
-            RestaurantDto restaurantDto = this.restaurantService.findById(id);
-            return ResponseEntity.ok(restaurantDto);
+        RestaurantDto restaurantDto = this.restaurantService.findById(id);
+        return ResponseEntity.ok(restaurantDto);
+        // try {
 
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        // } catch (EntityNotFoundException e) {
+        // return ResponseEntity.notFound().build();
+        // }
         // return restaurantDto == null
         // ? ResponseEntity.notFound().build()
         // : ResponseEntity.ok(restaurantDto);

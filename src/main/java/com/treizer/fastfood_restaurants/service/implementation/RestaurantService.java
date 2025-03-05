@@ -56,10 +56,17 @@ public class RestaurantService implements ICommonService<RestaurantDto, Restaura
             restaurantEntity = this.restaurantRepository.save(restaurantEntity);
             return MAPPER.map(restaurantEntity, RestaurantDto.class);
 
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             throw new UnsupportedOperationException(
                     "No fue posible guardar el restaurant: " + insertDto + " -> e: " + e.toString());
         }
+        // catch (ConstraintViolationException e) {
+        // throw new ConstraintViolationException(
+        // "Valor erroneo: " + insertDto + " -> e: " + e.toString(),
+        // null);
+        // } catch (Exception e) {
+        // throw new RuntimeException("Error" + e.toString());
+        // }
     }
 
     @Override
