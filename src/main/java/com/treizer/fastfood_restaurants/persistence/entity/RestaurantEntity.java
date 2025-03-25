@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,10 +48,13 @@ public class RestaurantEntity {
     // private List<String> keys;
     private String keys;
 
-    @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos números enteros y no más de ocho decimales")
+    // If you want to use @Digits the data type needs to be BigDecimal
+    // @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos
+    // números enteros y no más de ocho decimales")
     private Double latitude;
 
-    @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos números enteros y no más de ocho decimales")
+    // @Digits(integer = 2, fraction = 8, message = "No debe tener más de dos
+    // números enteros y no más de ocho decimales")
     private Double longitude;
 
     @NotNull(message = "No puede ser nulo el código postal")
