@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,19 +27,19 @@ public class RestaurantEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "No puede ser nulo el nombre")
+    // @NotNull(message = "No puede ser nulo el nombre")
     @Column(nullable = false)
     private String name;
 
-    @NotNull(message = "No puede ser nulo la direción")
+    // @NotNull(message = "No puede ser nulo la direción")
     @Column(nullable = false)
     private String address;
 
-    @NotNull(message = "No puede ser nulo la ciudad")
+    // @NotNull(message = "No puede ser nulo la ciudad")
     @Column(nullable = false)
     private String city;
 
-    @NotNull(message = "No puede ser nulo el país")
+    // @NotNull(message = "No puede ser nulo el país")
     @Column(length = 5, nullable = false)
     private String country;
 
@@ -57,11 +56,11 @@ public class RestaurantEntity {
     // números enteros y no más de ocho decimales")
     private Double longitude;
 
-    @NotNull(message = "No puede ser nulo el código postal")
+    // @NotNull(message = "No puede ser nulo el código postal")
     @Column(name = "postal_code", nullable = false)
     private Integer postalCode;
 
-    @NotNull(message = "No puede ser nulo la provincia")
+    // @NotNull(message = "No puede ser nulo la provincia")
     @Column(length = 5, nullable = false)
     private String province;
 
