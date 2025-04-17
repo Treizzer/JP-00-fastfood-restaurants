@@ -14,8 +14,9 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4321")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
+                        .allowedOrigins("http://localhost:4321") // Frontend URL
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .exposedHeaders("Location"); // Explicitly expose the Location Header
             }
         };
     }

@@ -26,7 +26,7 @@ public class RestaurantInsertDto {
     String city;
 
     @NotBlank(message = "No debe ser nulo o vacío el país")
-    @Size(min = 3, max = 20, message = "No debe tener menos de tres caracteres ni más de veinte")
+    @Size(min = 2, max = 5, message = "No debe tener menos de dos caracteres ni más de cinco")
     String country;
 
     // @Size(min = 1, max = 5, message = "No debe tener menos de una clave ni más de
